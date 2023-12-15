@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://payment.flywire.com/checkout/assets/js/checkout.js"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(to bottom, #302b63, #0f0c29);
+        font: normal 18px "Open Sans";
+        color: #d3d3d3;
+      }
+      button {
+        background-color: #698eb6;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        padding: 15px 30px;
+        font-size: 18px;
+        transition-duration: 0.4s;
+        margin: 010px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #527a8d;
+      }
+      p {
+        text-align: justify;
+      }
+      .content {
+        padding: 50px;
+      }
+      .wrapper {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        max-width: 900px;
+        text-align: center;
+      }
+      .wrapper input {
+        width: 300px;
+        background-color: #527a8d;
+        color: white;
+        padding: 10px 4px;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="content">
+        <h1>Massachusetts Institute of Technology</h1>
+      </div>
+      <div>
+        <input type="number" id="total" value="10000" />
+        <button id="checkout-button-1">Pay!</button>
+      </div>
+      <div>
+        <button id="checkout-button-2">Donate 100!</button>
+        <button id="checkout-button-3">Donate 200!</button>
+      </div>
+      <div class="content">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed luctus lorem dui, eu tempor dolor fringilla a. Integer iaculis hendrerit interdum. Nulla arcu metus, elementum sit amet sagittis at, pharetra sit amet massa. Nulla in egestas neque. Suspendisse ut nunc id purus efficitur lacinia. Vivamus augue metus, tempus a volutpat eu, laoreet sed tortor. Integer a dui mi. Praesent efficitur in urna id posuere. In varius justo ipsum, id fringilla nulla tempus id. Mauris sed lectus at lectus suscipit iaculis.</p>
+      </div>
+    </div>
+    <script>
+      function getConfig(attrs) {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        const env = params.get("env") || "production";
+        const recipient = params.get("recipient") || "FWU";
+        const sender_country = params.get("sender_country") || "ES";
+        const amount = document.getElementById("total").value;
+        const token = params.get("token");
+
+        if (token) {
+          return {
+            env: env,
+            locale: "en-EN",
+            token: token,
+          };
+        }
+        return Object.assign(
+          {},
+          {
+            env: env,
+            recipient: recipient,
+            locale: "en-EN",
+            sender_country: sender_country,
+            amount: amount,
+            sender_first_name: "Lionel",
+            sender_middle_name: "Andrés",
+            sender_last_name: "Messi",
+            sender_address1: "St/ Street name n21",
+            sender_address2: "Payex address",
+            sender_city: "Payex city",
+            sender_state: "Payex state",
+            sender_zip_code: "460034",
+            sender_phone: "+34 666666666",
+            sender_email: "leo.messi@flywire.com",
+            relationship: "Student",
+            payment_type: "Student account payment",
+            student_id: "student id",
+            student_email: "student@flywire.com",
+            short_name: "waba laba dub dub",
+            student_program_study: "Undergraduate program",
+            graduation_year: "2020",
+            student_first_name: "first name",
+            student_mid_name: "family name test",
+            student_last_name: "last name",
+            student_date_of_birth: "01/01/1990",
+            program_of_study: "Undergraduate program",
+            callback_id: "asd",
+            callback_url: "wadus",
+            return_url: "https://www.fcbarcelona.cat",
+            contact_relationship : "student", // for LRS
+            displayPayerInformation: false,
+            theme: { chat: true },
+          },
+          attrs
+        );
+      }
+
+      const checkout = window.flywire.Checkout.render(
+        getConfig(),
+        "#checkout-button-1"
+      );
+
+      document.getElementById("total").addEventListener("keyup", function () {
+        checkout.update(getConfig());
+      });
+
+      window.flywire.Checkout.render(
+        getConfig({ amount: 10000 }),
+        "#checkout-button-2"
+      );
+
+      window.flywire.Checkout.render(
+        getConfig({ amount: 20000 }),
+        "#checkout-button-3"
+      );
+    </script>
+  </body>
+</html>
